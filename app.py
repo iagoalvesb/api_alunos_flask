@@ -45,7 +45,7 @@ def classify_text(student_text):
 
 app = Flask(__name__)
 
-@app.route('/api', methods=['POST'])
+@app.route('/api', methods=['GET', 'POST'])
 def get_api_response():
     output = request.get_json()
     dict_values = json.loads(output)
