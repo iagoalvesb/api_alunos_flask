@@ -44,7 +44,7 @@ def get_llm_chain(llm, prompt=prompt):
 def classify_text(student_text, llm_chain):
     return llm_chain.run(student_text)
   
-def extract_infos(text):
+def extract_infos(infos):
   violencia, bullying, risco = infos.split(',')
   violencia = violencia.strip()
   bullying = bullying.strip()
@@ -75,12 +75,8 @@ def get_api_response():
     llm_chain = get_llm_chain(llm)
     infos = classify_text(text, llm_chain)
     
-#     violencia, bullying, risco = extract_infos(infos)
-    data['violencia'] = "com violência"
-    data['bullying'] = "com bullying"
-    data['risco'] = "alto"
+    violencia, bullying, risco = extract_infos(infos)
     
-    return jsonify(data)
     data['violencia'] = violencia
     data['bullying'] = bullying
     data['risco'] = risco
