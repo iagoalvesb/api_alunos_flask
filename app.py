@@ -26,8 +26,7 @@ TEMPLATE = """  Você vai agir como um psicólogo que observa textos de alunos e
                 Psicólogo: 
  """
 
-
-os.environ['OPENAI_API_KEY'] = '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'
+os.environ['OPENAI_API_KEY'] = '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'
 llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
 
 prompt = PromptTemplate(
