@@ -63,6 +63,12 @@ def ReturnJSON():
         }
   
         return jsonify(data)
+
+  
+@app.route("/post",  methods = ['POST'])
+def hello():
+    return request.get_json()
+  
   
 if __name__ == "__main__":
     app.run()
