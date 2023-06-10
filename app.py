@@ -56,10 +56,17 @@ app = Flask(__name__)
 
 @app.route('/api', methods=['POST'])
 def get_api_response():
-    output = request.get_json()
-    dict_values = json.loads(output)
-    dict_values['testee'] = 'oi'
-    return jsonify(dict_values)
+    data = json.loads(request.data)
+    text = data.get("texto",None)
+    api_key = data.get("api_key",None)
+    
+    if text is None:
+      return jsonify({"message":"text not found"})
+    
+    if api_key is None:
+      return jsonify({"api_key":"api not found"})
+    
+    return jsonify(data)
     dict_values['texto'] = classify_text(dict_values['texto'])
     return json.dumps(dict_values)
 
