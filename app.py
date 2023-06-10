@@ -53,5 +53,16 @@ def get_api_response():
     dict_values['texto'] = classify_text(dict_values['texto'])
     return json.dumps(dict_values)
 
+
+@app.route('/returnjson', methods = ['GET'])
+def ReturnJSON():
+    if(request.method == 'GET'):
+        data = {
+            "Modules" : 15,
+            "Subject" : "Data Structures and Algorithms",
+        }
+  
+        return jsonify(data)
+  
 if __name__ == "__main__":
     app.run()
