@@ -46,10 +46,10 @@ def classify_text(student_text, llm_chain):
   
 def extract_infos(infos):
   violencia, bullying, risco = infos.split(',')
-  violencia = violencia.strip()
-  bullying = bullying.strip()
-  risco = risco.strip()
-  return violencia, bullying, risco
+  indicios_bullying = True if "com" in bullying.lower() else False
+  indicios_violencia = True if "com" in violencia.lower() else False 
+  risco = risco.strip().lower()
+  return indicios_bullying, indicios_violencia, risco
 
 app = Flask(__name__)
 
@@ -75,10 +75,10 @@ def get_api_response():
     llm_chain = get_llm_chain(llm)
     infos = classify_text(text, llm_chain)
     
-    violencia, bullying, risco = extract_infos(infos)
+    indicios_bullying, indicios_violencia, risco = extract_infos(infos)
     
-    data['violencia'] = violencia
-    data['bullying'] = bullying
+    data['indicios_bullying'] = indicios_bullying
+    data['indicios_violencia'] = indicios_violencia
     data['risco'] = risco
     return jsonify(data)
 
