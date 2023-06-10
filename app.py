@@ -44,15 +44,24 @@ from langchain.chat_models import ChatOpenAI
 
 app = Flask(__name__)
 
+# @app.route('/api', methods=['POST'])
+# def get_api_response():
+#     return jsonify(request.json)
+#     output = request.get_json()
+#     dict_values = json.loads(output)
+#     return json.dumps(dict_values)
+#     dict_values['texto'] = classify_text(dict_values['texto'])
+#     return json.dumps(dict_values)
+
+
 @app.route('/api', methods=['POST'])
 def get_api_response():
-    return jsonify(request.json)
     output = request.get_json()
     dict_values = json.loads(output)
+    dict_values['testee'] = 'oi'
     return json.dumps(dict_values)
     dict_values['texto'] = classify_text(dict_values['texto'])
     return json.dumps(dict_values)
-
 
 @app.route('/returnjson', methods = ['GET'])
 def ReturnJSON():
