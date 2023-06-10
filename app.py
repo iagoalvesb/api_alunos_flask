@@ -52,18 +52,6 @@ def extract_infos(text):
 app = Flask(__name__)
 
 
-@app.route('/initiate_model', methods=['POST'])
-def initiate_model():
-    data = json.loads(request.data)
-    api_key = data.get("api_key", None)
-    if api_key is None:
-      return jsonify({"api_key":"api not found"})
-    try:
-      initiate_openai(api_key)
-      return jsonify({"api_key":"openai key accepted"})
-    except:
-      return jsonify({"api_key":"openai key not valid"})
-    
 @app.route('/api', methods=['POST'])
 def get_api_response():
     data = json.loads(request.data)
