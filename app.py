@@ -74,7 +74,7 @@ def get_api_response():
     llm = get_llm()
     llm_chain = get_llm_chain(llm)
     infos = classify_text(text, llm_chain)
-    
+    return jsonify(data)
     violencia, bullying, risco = extract_infos(infos)
     
     data['violencia'] = violencia
