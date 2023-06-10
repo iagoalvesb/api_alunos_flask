@@ -9,10 +9,7 @@ from langchain.chat_models import ChatOpenAI
 def initiate_openai(key):
     os.environ['OPENAI_API_KEY'] = key
     
-class LLMOperations:
-    def __init__(self):
-        self.llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
-        self.template = """Você vai agir como um psicólogo que observa textos de alunos e consegue extrair informações sobre o sentimento do aluno, o
+TEMPLATE = """  Você vai agir como um psicólogo que observa textos de alunos e consegue extrair informações sobre o sentimento do aluno, o
                 real sentimento dele quando estava escrevendo o texto.
                 As características que você irá relatar no texto são [com/sem violência], [com/sem bullying], [nível de risco baixo/médio/alto].
                 Suas respostas devem sempre separar as características por virgula, jamais misture duas características sem a separação delas
@@ -28,30 +25,34 @@ class LLMOperations:
 
                 Texto: {student_text}
                 Psicólogo: 
-                """
-        self.prompt = PromptTemplate(
-                        template=self.template,
-                        input_variables=['student_text']
-                    )
-        
-        self.llm_chain = LLMChain(prompt=self.prompt,
-                                  llm=self.llm)
+ """
 
-    def classify_text(student_text):
-        infos = self.llm_chain.run(student_text) # string no formato "com violência, com bullying, médio"
-        indicios_bullying, indicios_violencia, risco = extract_infos(infos) # converta a string para o formato "True, True, médio"
-        return indicios_bullying, indicios_violencia, risco
 
-    def extract_infos(infos):
-        violencia, bullying, risco = infos.split(',')
-        indicios_bullying = True if "com" in bullying.lower() else False
-        indicios_violencia = True if "com" in violencia.lower() else False 
-        risco = risco.strip().lower()
-        return indicios_bullying, indicios_violencia, risco
+
+def get_llm():
+  return ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
+
+prompt = PromptTemplate(
+    template=TEMPLATE,
+    input_variables=['student_text']
+)
+
+def get_llm_chain(llm, prompt=prompt):
+  return LLMChain(prompt=prompt,
+                  llm=llm)
+
+def classify_text(student_text, llm_chain):
+    return llm_chain.run(student_text)
+  
+def extract_infos(infos):
+  violencia, bullying, risco = infos.split(',')
+  indicios_bullying = True if "com" in bullying.lower() else False
+  indicios_violencia = True if "com" in violencia.lower() else False 
+  risco = risco.strip().lower()
+  return indicios_bullying, indicios_violencia, risco
 
 app = Flask(__name__)
 
-llm_op = LLMOperations()
 
 @app.route('/api', methods=['POST'])
 def get_api_response():
@@ -70,7 +71,11 @@ def get_api_response():
     except:
       return jsonify({"api_key":"openai key not valid"})
     
-    indicios_bullying, indicios_violencia, risco = llm_op.classify_text(text)
+    llm = get_llm()
+    llm_chain = get_llm_chain(llm)
+    infos = classify_text(text, llm_chain)
+    
+    indicios_bullying, indicios_violencia, risco = extract_infos(infos)
     
     data['indicios_bullying'] = indicios_bullying
     data['indicios_violencia'] = indicios_violencia
