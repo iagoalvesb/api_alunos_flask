@@ -7,40 +7,40 @@ from langchain import PromptTemplate, LLMChain
 from langchain.chat_models import ChatOpenAI
 
 
-TEMPLATE = """  Você vai agir como um psicólogo que observa textos de alunos e consegue extrair informações sobre o sentimento do aluno, o
-                real sentimento dele quando estava escrevendo o texto.
-                As características que você irá relatar no texto são [positivo/negativo/neutro], [com/sem violência], [nível de preocupação baixo/médio/alto].
-                Suas respostas devem sempre separar as características por virgula, jamais misture duas características sem a separação delas por
-                vírgula. Lembre-se de sempre verificar se o texto possui um sentimento negativo, se relata alguma violência (física ou verbal), e
-                você sabe que bullying também é violência.
+# TEMPLATE = """  Você vai agir como um psicólogo que observa textos de alunos e consegue extrair informações sobre o sentimento do aluno, o
+#                 real sentimento dele quando estava escrevendo o texto.
+#                 As características que você irá relatar no texto são [positivo/negativo/neutro], [com/sem violência], [nível de preocupação baixo/médio/alto].
+#                 Suas respostas devem sempre separar as características por virgula, jamais misture duas características sem a separação delas por
+#                 vírgula. Lembre-se de sempre verificar se o texto possui um sentimento negativo, se relata alguma violência (física ou verbal), e
+#                 você sabe que bullying também é violência.
                 
-                Comece!
+#                 Comece!
 
-                Texto: "hoje nao teve nada demais"
-                Psicólogo: neutro, sem violência, baixo.
+#                 Texto: "hoje nao teve nada demais"
+#                 Psicólogo: neutro, sem violência, baixo.
 
-                Texto: "hoje eu sofri bullying, fizeram muitas piadas sobre mim"
-                Psicólogo: negativo, com violência, médio.
+#                 Texto: "hoje eu sofri bullying, fizeram muitas piadas sobre mim"
+#                 Psicólogo: negativo, com violência, médio.
 
-                Texto: {student_text}
-                Psicólogo: 
- """
+#                 Texto: {student_text}
+#                 Psicólogo: 
+#  """
 
-os.environ['OPENAI_API_KEY'] = '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'
-llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
+# os.environ['OPENAI_API_KEY'] = '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'
+# llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
 
-prompt = PromptTemplate(
-    template=TEMPLATE,
-    input_variables=['student_text']
-)
+# prompt = PromptTemplate(
+#     template=TEMPLATE,
+#     input_variables=['student_text']
+# )
 
-llm_chain = LLMChain(
-    prompt=prompt,
-    llm=llm
-)
+# llm_chain = LLMChain(
+#     prompt=prompt,
+#     llm=llm
+# )
 
-def classify_text(student_text):
-    return llm_chain.run(student_text)
+# def classify_text(student_text):
+#     return llm_chain.run(student_text)
 
 app = Flask(__name__)
 
