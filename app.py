@@ -66,6 +66,7 @@ def get_api_response():
     if api_key is None:
       return jsonify({"api_key":"api not found"})
     
+    data['oi'] = 'deu certooow'
     return jsonify(data)
     dict_values['texto'] = classify_text(dict_values['texto'])
     return json.dumps(dict_values)
