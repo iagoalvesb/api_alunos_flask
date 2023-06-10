@@ -48,6 +48,7 @@ app = Flask(__name__)
 def get_api_response():
     output = request.get_json()
     dict_values = json.loads(output)
+    return json.dumps(dict_values)
     dict_values['texto'] = classify_text(dict_values['texto'])
     return json.dumps(dict_values)
 
