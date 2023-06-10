@@ -73,7 +73,12 @@ def service():
         return jsonify({"message":"text not found"})
     else:
         return jsonify(data)
-  
+ 
+
+@app.route('/process_json', methods=['POST'])
+def process_json():
+    json_data = request.get_json()  # Obtém o JSON enviado pelo consumidor
+    return jsonify(json_data)
   
 if __name__ == "__main__":
     app.run()
