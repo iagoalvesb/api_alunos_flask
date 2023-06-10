@@ -48,7 +48,8 @@ def extract_infos(text):
   violencia = violencia.strip()
   bullying = bullying.strip()
   risco = risco.strip()
-  
+  return violencia, bullying, risco
+
 app = Flask(__name__)
 
 
