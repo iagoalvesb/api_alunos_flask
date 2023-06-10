@@ -65,9 +65,14 @@ def ReturnJSON():
         return jsonify(data)
 
   
-@app.route("/post",  methods = ['POST'])
-def hello():
-    return request.get_json()
+@app.route('/service', methods=['POST'])
+def service():
+    data = json.loads(request.data)
+    text = data.get("text",None)
+    if text is None:
+        return jsonify({"message":"text not found"})
+    else:
+        return jsonify(data)
   
   
 if __name__ == "__main__":
