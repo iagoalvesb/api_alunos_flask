@@ -12,7 +12,7 @@ def initiate_openai(key):
 class LLMOperations:
     def __init__(self):
         self.llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
-        self.template = """  Você vai agir como um psicólogo que observa textos de alunos e consegue extrair informações sobre o sentimento do aluno, o
+        self.template = """Você vai agir como um psicólogo que observa textos de alunos e consegue extrair informações sobre o sentimento do aluno, o
                 real sentimento dele quando estava escrevendo o texto.
                 As características que você irá relatar no texto são [com/sem violência], [com/sem bullying], [nível de risco baixo/médio/alto].
                 Suas respostas devem sempre separar as características por virgula, jamais misture duas características sem a separação delas
@@ -34,8 +34,8 @@ class LLMOperations:
                         input_variables=['student_text']
                     )
         
-        self.llm_chain(prompt=self.prompt,
-                      llm=self.llm)
+        self.llm_chain = LLMChain(prompt=self.prompt,
+                                  llm=self.llm)
 
     def classify_text(student_text):
         infos = self.llm_chain.run(student_text) # string no formato "com violência, com bullying, médio"
@@ -43,11 +43,11 @@ class LLMOperations:
         return indicios_bullying, indicios_violencia, risco
 
     def extract_infos(infos):
-      violencia, bullying, risco = infos.split(',')
-      indicios_bullying = True if "com" in bullying.lower() else False
-      indicios_violencia = True if "com" in violencia.lower() else False 
-      risco = risco.strip().lower()
-      return indicios_bullying, indicios_violencia, risco
+        violencia, bullying, risco = infos.split(',')
+        indicios_bullying = True if "com" in bullying.lower() else False
+        indicios_violencia = True if "com" in violencia.lower() else False 
+        risco = risco.strip().lower()
+        return indicios_bullying, indicios_violencia, risco
 
 app = Flask(__name__)
 
