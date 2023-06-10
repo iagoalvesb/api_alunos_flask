@@ -46,7 +46,7 @@ app = Flask(__name__)
 
 @app.route('/api', methods=['POST'])
 def get_api_response():
-  return jsonify(request.json)
+    return jsonify(request.json)
     output = request.get_json()
     dict_values = json.loads(output)
     return json.dumps(dict_values)
