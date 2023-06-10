@@ -59,7 +59,7 @@ def get_api_response():
     data = json.loads(request.data)
     text = data.get("texto",None)
     api_key = data.get("api_key", None)
-
+    del data['api_key']
     if text is None:
       return jsonify({"message":"text not found"})
     
